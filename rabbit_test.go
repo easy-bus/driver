@@ -1,4 +1,4 @@
-package rabbit_driver
+package driver
 
 import (
 	"context"

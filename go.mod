@@ -1,4 +1,4 @@
-module github.com/easy-bus/rabbit-driver
+module github.com/easy-bus/driver
 
 go 1.12
 
