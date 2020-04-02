@@ -11,13 +11,13 @@ import (
 )
 
 func TestRabbitDriver(t *testing.T) {
-	var conn, err = amqp.Dial("amqp://localhost:5672/")
+	var conn, err = amqp.Dial("amqp://rabbitmq:efoto@2020@rabbitmq-01.data.svc.cluster.local:5672/")
 
 	assert.Nil(t, err)
 
 	var num uint32
 	var driver = New(conn, 2)
-	var errChan = make(chan error, 1)
+	var errChan = make(chan error, 2)
 	var msgData = []byte("test.message")
 
 	assert.Nil(t, driver.CreateTopic("test.topic"))
@@ -37,6 +37,5 @@ func TestRabbitDriver(t *testing.T) {
 		return true
 	})
 
-	<-errChan
 	assert.Equal(t, uint32(2), num)
 }

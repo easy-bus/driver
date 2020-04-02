@@ -100,7 +100,7 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 	}
 	line := rd.master.AddLine(queue, func(i interface{}) {
 		var err error
-		msg := i.(amqp.Delivery)
+		var msg = i.(amqp.Delivery)
 		if handler(msg.Body) {
 			err = msg.Ack(false)
 		} else {
@@ -110,7 +110,9 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 			errChan <- err
 		}
 	})
-	for {
+	defer line.Wait()
+	var done = false
+	for done == false {
 		select {
 		case <-ctx.Done():
 			return
@@ -123,7 +125,8 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 				for {
 					select {
 					case <-ctx.Done():
-						return ctx.Err()
+						done = true
+						return nil
 					case msg := <-msgChan:
 						line.Submit(msg)
 					}
