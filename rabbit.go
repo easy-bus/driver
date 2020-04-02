@@ -6,11 +6,14 @@ import (
 	"time"
 
 	"github.com/easy-bus/bus"
+	"github.com/letsfire/factory"
 	"github.com/streadway/amqp"
 )
 
 type rabbitDriver struct {
 	conn *amqp.Connection
+
+	master *factory.Master
 
 	// queues 延迟映射表
 	queues map[string]map[time.Duration]string
@@ -41,7 +44,7 @@ func (rd *rabbitDriver) CreateQueue(name string, delay time.Duration) error {
 			rd.maintainMap(name, delay, name)
 			return nil
 		}
-		ms := delay / time.Millisecond
+		ms := delay.Milliseconds()
 		rq := fmt.Sprintf("%s.delay-%d", name, ms)
 		_, err := ch.QueueDeclare(rq, true, false, false, false, amqp.Table{
 			"x-message-ttl":             int(ms),
@@ -93,8 +96,20 @@ func (rd *rabbitDriver) SendToTopic(name string, content []byte, routeKey string
 
 func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errChan chan error, handler func([]byte) bool) {
 	if _, ok := rd.queues[queue]; !ok {
-		panic(fmt.Sprintf("easy-async-rabbit-driver: the queue %q does not exist, create it first", queue))
+		panic(fmt.Sprintf("easy-bus-rabbit-driver: the queue %q does not exist, create it first", queue))
 	}
+	line := rd.master.AddLine(queue, func(i interface{}) {
+		var err error
+		msg := i.(amqp.Delivery)
+		if handler(msg.Body) {
+			err = msg.Ack(false)
+		} else {
+			err = msg.Nack(false, true)
+		}
+		if err != nil {
+			errChan <- err
+		}
+	})
 	for {
 		select {
 		case <-ctx.Done():
@@ -110,15 +125,7 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 					case <-ctx.Done():
 						return ctx.Err()
 					case msg := <-msgChan:
-						var err error
-						if handler(msg.Body) {
-							err = msg.Ack(false)
-						} else {
-							err = msg.Nack(false, true)
-						}
-						if err != nil {
-							errChan <- err
-						}
+						line.Submit(msg)
 					}
 				}
 			})
@@ -139,9 +146,10 @@ func (rd *rabbitDriver) callWithChannel(fn func(ch *amqp.Channel) error) error {
 	}
 }
 
-func New(conn *amqp.Connection) bus.DriverInterface {
+func New(conn *amqp.Connection, max int) bus.DriverInterface {
 	return &rabbitDriver{
 		conn:    conn,
+		master:  factory.NewMaster(max, 1),
 		initMap: make(map[string]string),
 		queues:  make(map[string]map[time.Duration]string),
 	}
