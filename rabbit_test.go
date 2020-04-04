@@ -11,12 +11,12 @@ import (
 )
 
 func TestRabbitDriver(t *testing.T) {
-	var conn, err = amqp.Dial("amqp://rabbitmq:efoto@2020@rabbitmq-01.data.svc.cluster.local:5672/")
+	var conn, err = amqp.Dial("amqp://localhost:5672/")
 
 	assert.Nil(t, err)
 
 	var num uint32
-	var driver = New(conn, 2)
+	var driver = NewRedis(conn, 2)
 	var errChan = make(chan error, 2)
 	var msgData = []byte("test.message")
 
