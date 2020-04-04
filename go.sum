@@ -10,11 +10,8 @@ github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORN
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
 github.com/kr/text v0.1.0 h1:45sCR5RtlFHMR4UwH9sdQ5TC8v0qDQCHnXt+kaKSTVE=
 github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
-github.com/letsfire/factory v0.0.0-20191119034130-1270fd77b852 h1:MP/XmBZGoKDvkWhpJGMFUOfbC5sypGrZbli0nWKyZzI=
-github.com/letsfire/factory v0.0.0-20191119034130-1270fd77b852/go.mod h1:VB8XuMnLZoTrZ+1+8l5f4CSOCvji9Y50ipHYkHtAJ5Y=
 github.com/letsfire/factory v0.0.0-20200402143505-ac00b13e8db0 h1:13yTwnM1nMa7wMcL36biFpXTCpHu/rBwsXzfTr/kNOA=
 github.com/letsfire/factory v0.0.0-20200402143505-ac00b13e8db0/go.mod h1:wlsw1oG3EN9Ha2RFlB0JpG1Ytx872jhlwor60ddzj6c=
-github.com/letsfire/utils v0.0.0-20191027122615-30a04c61bccf/go.mod h1:K5cUua/sKgAAkxKPEAyfyuM5X5GhtevqOq56oZ5FCfQ=
 github.com/letsfire/utils v0.0.0-20200219142806-5d1bd574d033 h1:Slr/wwpjwu0pkQ7cyFSzZRFEm/PJ7lmmag1MkEGLXuE=
 github.com/letsfire/utils v0.0.0-20200219142806-5d1bd574d033/go.mod h1:qVDeO0i7G9ZleBWSVnZewa4/ctNpdGqSL6UIfrNsc/M=
 github.com/letsfire/utils v0.0.0-20200331101103-1ea3f3e4b618 h1:5LPEvEUok9gCkfvBZgCV5DHBOzPgR2gHtgga7Eqc2L4=
