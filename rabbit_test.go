@@ -16,7 +16,7 @@ func TestRabbitDriver(t *testing.T) {
 	assert.Nil(t, err)
 
 	var num uint32
-	var driver = NewRedis(conn, 2)
+	var driver = NewRabbitMQ(conn, 2)
 	var errChan = make(chan error, 2)
 	var msgData = []byte("test.message")
 

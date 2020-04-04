@@ -149,7 +149,7 @@ func (rd *rabbitDriver) callWithChannel(fn func(ch *amqp.Channel) error) error {
 	}
 }
 
-func NewRedis(conn *amqp.Connection, max int) bus.DriverInterface {
+func NewRabbitMQ(conn *amqp.Connection, max int) bus.DriverInterface {
 	return &rabbitDriver{
 		conn:    conn,
 		master:  factory.NewMaster(max, 1),
