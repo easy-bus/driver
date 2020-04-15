@@ -98,7 +98,7 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 	if _, ok := rd.queues[queue]; !ok {
 		panic(fmt.Sprintf("easy-bus-rabbit-driver: the queue %q does not exist, create it first", queue))
 	}
-	line := rd.master.AddLine(queue, func(i interface{}) {
+	line := rd.master.AddLine(func(i interface{}) {
 		var err error
 		var msg = i.(amqp.Delivery)
 		if handler(msg.Body) {
