@@ -111,13 +111,19 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 		}
 	})
 	defer line.Wait()
-	var done = false
+	done, size := false, ctx.Value("prefetch_count")
 	for done == false {
 		select {
 		case <-ctx.Done():
 			return
 		default:
 			err := rd.callWithChannel(func(ch *amqp.Channel) error {
+				if size != nil {
+					err := ch.Qos(size.(int), 0, false)
+					if err != nil {
+						return err
+					}
+				}
 				msgChan, err := ch.Consume(queue, "", false, false, false, false, nil)
 				if err != nil {
 					return err

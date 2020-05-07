@@ -18,6 +18,8 @@ github.com/letsfire/utils v0.0.0-20200331101103-1ea3f3e4b618 h1:5LPEvEUok9gCkfvB
 github.com/letsfire/utils v0.0.0-20200331101103-1ea3f3e4b618/go.mod h1:qVDeO0i7G9ZleBWSVnZewa4/ctNpdGqSL6UIfrNsc/M=
 github.com/letsfire/utils v0.0.0-20200411030736-3f5b6e022ae2 h1:+jJKl78KsO2BN5wF7eJN193bUcEIHLktUUulNz1DjUI=
 github.com/letsfire/utils v0.0.0-20200411030736-3f5b6e022ae2/go.mod h1:qVDeO0i7G9ZleBWSVnZewa4/ctNpdGqSL6UIfrNsc/M=
+github.com/letsfire/utils v0.0.0-20200507065059-f917596f317f h1:NYZFYqKSvTVJmbAOJtqbUjq2nmlgvXjIikQwiM8XiJ4=
+github.com/letsfire/utils v0.0.0-20200507065059-f917596f317f/go.mod h1:qVDeO0i7G9ZleBWSVnZewa4/ctNpdGqSL6UIfrNsc/M=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/sony/sonyflake v1.0.0 h1:MpU6Ro7tfXwgn2l5eluf9xQvQJDROTBImNCfRXn/YeM=
