@@ -98,6 +98,7 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 	if _, ok := rd.queues[queue]; !ok {
 		panic(fmt.Sprintf("easy-bus-rabbit-driver: the queue %q does not exist, create it first", queue))
 	}
+	renewChannel := make(chan struct{})
 	line := rd.master.AddLine(func(i interface{}) {
 		var err error
 		var msg = i.(amqp.Delivery)
@@ -108,6 +109,7 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 		}
 		if err != nil {
 			errChan <- err
+			renewChannel <- struct{}{}
 		}
 	})
 	defer line.Wait()
@@ -132,6 +134,8 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 					select {
 					case <-ctx.Done():
 						done = true
+						return nil
+					case <-renewChannel:
 						return nil
 					case msg := <-msgChan:
 						line.Submit(msg)
