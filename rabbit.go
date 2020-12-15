@@ -34,9 +34,6 @@ func (rd *rabbitDriver) maintainMap(name string, delay time.Duration, replace st
 
 func (rd *rabbitDriver) CreateQueue(name string, delay time.Duration) error {
 	return rd.callWithChannel(func(ch *amqp.Channel) error {
-		if _, ok := rd.queues[name][delay]; ok {
-			return nil
-		}
 		if _, err := ch.QueueDeclare(name, true, false, false, false, nil); err != nil {
 			return err
 		}
