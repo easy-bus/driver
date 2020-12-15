@@ -10,6 +10,8 @@ github.com/easy-bus/bus v0.0.0-20200616115129-997fa8aedf0b h1:YMaHtHwePy1dpQC8Cy
 github.com/easy-bus/bus v0.0.0-20200616115129-997fa8aedf0b/go.mod h1:x38uXKlL4k+2uLfJNvB4PS1CVfmX5GWuweTJmuCS+Bo=
 github.com/easy-bus/bus v0.0.0-20200925022537-45812a16f5fd h1:rIbHbpGDFEUivqJUQIfbCJLeLizJ4DmkWIkZ1yLgrPU=
 github.com/easy-bus/bus v0.0.0-20200925022537-45812a16f5fd/go.mod h1:acyTXwDcELCW9x4Ktk1A+KhmAjKIMLoIlGyp6hdFMkw=
+github.com/easy-bus/bus v0.0.0-20201215034335-0bd0d5abd096 h1:7h/V667FP6IOZY88fIvgoMdvAoknncyqfCwtlrhBI/8=
+github.com/easy-bus/bus v0.0.0-20201215034335-0bd0d5abd096/go.mod h1:acyTXwDcELCW9x4Ktk1A+KhmAjKIMLoIlGyp6hdFMkw=
 github.com/gomodule/redigo v2.0.0+incompatible/go.mod h1:B4C85qUVwatsJoIUNIfCRsp7qO0iAmpGFZ4EELWSbC4=
 github.com/hashicorp/golang-lru v0.5.4/go.mod h1:iADmTwqILo4mZ8BN3D2Q6+9jd8WM5uGBxy+E8yxSoD4=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=
@@ -25,6 +27,8 @@ github.com/letsfire/factory v0.0.0-20200620052814-eea92cf1bf9e h1:iAszEcUVS3GY5l
 github.com/letsfire/factory v0.0.0-20200620052814-eea92cf1bf9e/go.mod h1:wlsw1oG3EN9Ha2RFlB0JpG1Ytx872jhlwor60ddzj6c=
 github.com/letsfire/redigo/v2 v2.0.1 h1:oL7I1enb81ejSvOM417E93Fdp5n+dhTWJBBDCqgx1JE=
 github.com/letsfire/redigo/v2 v2.0.1/go.mod h1:mxNW09iQCVm5Z4kl6lByo9OdfaziloauNA7jZqWAyjI=
+github.com/letsfire/redigo/v2 v2.0.3 h1:ixOHA8zRkduQucFoO7iGTjA3hqSVuuhk/KzQxTY60Qo=
+github.com/letsfire/redigo/v2 v2.0.3/go.mod h1:mxNW09iQCVm5Z4kl6lByo9OdfaziloauNA7jZqWAyjI=
 github.com/letsfire/utils v0.0.0-20200219142806-5d1bd574d033 h1:Slr/wwpjwu0pkQ7cyFSzZRFEm/PJ7lmmag1MkEGLXuE=
 github.com/letsfire/utils v0.0.0-20200219142806-5d1bd574d033/go.mod h1:qVDeO0i7G9ZleBWSVnZewa4/ctNpdGqSL6UIfrNsc/M=
 github.com/letsfire/utils v0.0.0-20200331101103-1ea3f3e4b618 h1:5LPEvEUok9gCkfvBZgCV5DHBOzPgR2gHtgga7Eqc2L4=
@@ -38,6 +42,8 @@ github.com/letsfire/utils v0.0.0-20200619070333-79d511d2ee59 h1:vOOnauWgqDwLa51h
 github.com/letsfire/utils v0.0.0-20200619070333-79d511d2ee59/go.mod h1:qVDeO0i7G9ZleBWSVnZewa4/ctNpdGqSL6UIfrNsc/M=
 github.com/letsfire/utils v0.0.0-20201024033258-2225bae9671c h1:MCXYLV9uW6mjYDMl+G94KyuMclt93RNIwRLg2oeflsg=
 github.com/letsfire/utils v0.0.0-20201024033258-2225bae9671c/go.mod h1:WicCI+/uHxVmxmgfho1Zyqqx+vj0ZJ5O82TdWj90oXM=
+github.com/letsfire/utils v0.0.0-20201211042532-752b2e1cd2e4 h1:tlsXqtasvfehXWpMMJni0C8A5tEHNqy7SG/JVKN3ZVw=
+github.com/letsfire/utils v0.0.0-20201211042532-752b2e1cd2e4/go.mod h1:oCMgTtz0KvNcofZE1mhUZFRoVfFGrRbbXBfDe2Q4IzA=
 github.com/mna/redisc v1.1.7/go.mod h1:GXeOb7zyYKiT+K8MKdIiJvuv7MfhDoQGcuzfiJQmqQI=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
