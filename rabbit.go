@@ -34,7 +34,7 @@ func (rd *rabbitDriver) maintainMap(name string, delay time.Duration, replace st
 
 func (rd *rabbitDriver) CreateQueue(name string, delay time.Duration) error {
 	return rd.callWithChannel(func(ch *amqp.Channel) error {
-		if _, err := ch.QueueDeclare(name, true, false, false, false, nil); err != nil {
+		if _, err := ch.QueueDeclare(name, true, true, false, false, nil); err != nil {
 			return err
 		}
 		if delay == 0 {
@@ -43,7 +43,7 @@ func (rd *rabbitDriver) CreateQueue(name string, delay time.Duration) error {
 		}
 		ms := delay.Milliseconds()
 		rq := fmt.Sprintf("%s.delay-%d", name, ms)
-		_, err := ch.QueueDeclare(rq, true, false, false, false, amqp.Table{
+		_, err := ch.QueueDeclare(rq, true, true, false, false, amqp.Table{
 			"x-message-ttl":             int(ms),
 			"x-dead-letter-exchange":    "",
 			"x-dead-letter-routing-key": name,
@@ -57,7 +57,7 @@ func (rd *rabbitDriver) CreateQueue(name string, delay time.Duration) error {
 
 func (rd *rabbitDriver) CreateTopic(name string) error {
 	return rd.callWithChannel(func(ch *amqp.Channel) error {
-		return ch.ExchangeDeclare(name, "topic", true, false, false, false, nil)
+		return ch.ExchangeDeclare(name, "topic", true, true, false, false, nil)
 	})
 }
 
