@@ -7,11 +7,11 @@ import (
 
 	"github.com/easy-bus/bus"
 	"github.com/letsfire/factory"
-	"github.com/streadway/amqp"
+	"github.com/rabbitmq/amqp091-go"
 )
 
 type rabbitDriver struct {
-	conn *amqp.Connection
+	conn *amqp091.Connection
 
 	master *factory.Master
 
@@ -33,8 +33,8 @@ func (rd *rabbitDriver) maintainMap(name string, delay time.Duration, replace st
 }
 
 func (rd *rabbitDriver) CreateQueue(name string, delay time.Duration) error {
-	return rd.callWithChannel(func(ch *amqp.Channel) error {
-		if _, err := ch.QueueDeclare(name, true, true, false, false, nil); err != nil {
+	return rd.callWithChannel(func(ch *amqp091.Channel) error {
+		if _, err := ch.QueueDeclare(name, true, false, false, false, nil); err != nil {
 			return err
 		}
 		if delay == 0 {
@@ -43,7 +43,7 @@ func (rd *rabbitDriver) CreateQueue(name string, delay time.Duration) error {
 		}
 		ms := delay.Milliseconds()
 		rq := fmt.Sprintf("%s.delay-%d", name, ms)
-		_, err := ch.QueueDeclare(rq, true, true, false, false, amqp.Table{
+		_, err := ch.QueueDeclare(rq, true, false, false, false, amqp091.Table{
 			"x-message-ttl":             int(ms),
 			"x-dead-letter-exchange":    "",
 			"x-dead-letter-routing-key": name,
@@ -56,19 +56,19 @@ func (rd *rabbitDriver) CreateQueue(name string, delay time.Duration) error {
 }
 
 func (rd *rabbitDriver) CreateTopic(name string) error {
-	return rd.callWithChannel(func(ch *amqp.Channel) error {
-		return ch.ExchangeDeclare(name, "topic", true, true, false, false, nil)
+	return rd.callWithChannel(func(ch *amqp091.Channel) error {
+		return ch.ExchangeDeclare(name, "topic", true, false, false, false, nil)
 	})
 }
 
 func (rd *rabbitDriver) Subscribe(topic, queue, routeKey string) error {
-	return rd.callWithChannel(func(ch *amqp.Channel) error {
+	return rd.callWithChannel(func(ch *amqp091.Channel) error {
 		return ch.QueueBind(rd.initMap[queue], routeKey, topic, false, nil)
 	})
 }
 
 func (rd *rabbitDriver) UnSubscribe(topic, queue, routeKey string) error {
-	return rd.callWithChannel(func(ch *amqp.Channel) error {
+	return rd.callWithChannel(func(ch *amqp091.Channel) error {
 		return ch.QueueUnbind(rd.initMap[queue], routeKey, topic, nil)
 	})
 }
@@ -79,15 +79,15 @@ func (rd *rabbitDriver) SendToQueue(name string, content []byte, delay time.Dura
 			return err
 		}
 	}
-	return rd.callWithChannel(func(ch *amqp.Channel) error {
-		pb := amqp.Publishing{Body: content}
+	return rd.callWithChannel(func(ch *amqp091.Channel) error {
+		pb := amqp091.Publishing{Body: content}
 		return ch.Publish("", rd.queues[name][delay], false, false, pb)
 	})
 }
 
 func (rd *rabbitDriver) SendToTopic(name string, content []byte, routeKey string) error {
-	return rd.callWithChannel(func(ch *amqp.Channel) error {
-		return ch.Publish(name, routeKey, false, false, amqp.Publishing{Body: content})
+	return rd.callWithChannel(func(ch *amqp091.Channel) error {
+		return ch.Publish(name, routeKey, false, false, amqp091.Publishing{Body: content})
 	})
 }
 
@@ -97,7 +97,7 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 	}
 	line := rd.master.AddLine(func(i interface{}) {
 		var err error
-		var msg = i.(amqp.Delivery)
+		var msg = i.(amqp091.Delivery)
 		if handler(msg.Body) {
 			err = msg.Ack(false)
 		} else {
@@ -114,7 +114,7 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 		case <-ctx.Done():
 			return
 		default:
-			err := rd.callWithChannel(func(ch *amqp.Channel) error {
+			err := rd.callWithChannel(func(ch *amqp091.Channel) error {
 				if size != nil {
 					err := ch.Qos(size.(int), 0, false)
 					if err != nil {
@@ -147,7 +147,7 @@ func (rd *rabbitDriver) ReceiveMessage(ctx context.Context, queue string, errCha
 	}
 }
 
-func (rd *rabbitDriver) callWithChannel(fn func(ch *amqp.Channel) error) error {
+func (rd *rabbitDriver) callWithChannel(fn func(ch *amqp091.Channel) error) error {
 	if ch, err := rd.conn.Channel(); err != nil {
 		return err
 	} else {
@@ -156,7 +156,7 @@ func (rd *rabbitDriver) callWithChannel(fn func(ch *amqp.Channel) error) error {
 	}
 }
 
-func NewRabbitMQ(conn *amqp.Connection, max int) bus.DriverInterface {
+func NewRabbitMQ(conn *amqp091.Connection, max int) bus.DriverInterface {
 	return &rabbitDriver{
 		conn:    conn,
 		master:  factory.NewMaster(max, 1),

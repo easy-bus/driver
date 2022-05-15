@@ -2,19 +2,21 @@ package driver
 
 import (
 	"context"
+	"github.com/rabbitmq/amqp091-go"
 	"sync/atomic"
 	"testing"
 	"time"
 
-	"github.com/streadway/amqp"
 	"github.com/stretchr/testify/assert"
 )
 
+var conn *amqp091.Connection
+
+func init() {
+	conn, _ = amqp091.Dial("amqp://rabbitmq:123456666@localhost:5672/")
+}
+
 func TestRabbitDriver(t *testing.T) {
-	var conn, err = amqp.Dial("amqp://localhost:5672/")
-
-	assert.Nil(t, err)
-
 	var num uint32
 	var driver = NewRabbitMQ(conn, 2)
 	var errChan = make(chan error, 2)
